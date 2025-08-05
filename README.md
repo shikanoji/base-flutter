@@ -1,59 +1,55 @@
-# Flutter Base Project - Complete Boilerplate
+# 🚀 Flutter Base Project - Production Ready Boilerplate
 
-Dự án Flutter hoàn chỉnh với Clean Architecture, tích hợp đầy đủ các module cần thiết cho một ứng dụng production-ready.
+[![Flutter Version](https://img.shields.io/badge/Flutter-3.0+-blue.svg)](https://flutter.dev/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/your-repo/graphs/commit-activity)
 
-## ✨ Tính năng chính
+A comprehensive Flutter boilerplate following **Clean Architecture** principles with production-ready features and modern development practices.
 
-- ✅ **Clean Architecture** - Tách biệt rõ ràng các layer
-- ✅ **GoRouter** - Navigation hiện đại và type-safe  
-- ✅ **Environment Config** - Quản lý cấu hình theo môi trường
-- ✅ **State Management** - BLoC pattern với flutter_bloc
-- ✅ **Dependency Injection** - GetIt + Injectable
-- ✅ **Local Storage** - Hive + SQLite + SharedPreferences
-- ✅ **Network Layer** - Dio với interceptors và error handling
-- ✅ **Authentication** - JWT, OAuth2 support
-- ✅ **Theming** - Light/Dark theme với responsive design
-- ✅ **Localization** - Multi-language support (EN/VI)
-- ✅ **Logging & Analytics** - Logger + Sentry + Firebase Analytics
-- ✅ **Testing Ready** - Unit tests, Widget tests, Integration tests
-- ✅ **UI Components** - Custom widgets và design system
+## ✨ Key Features
 
-## 📁 Cấu trúc dự án
+| Feature | Status | Description |
+|---------|--------|-------------|
+| 🏗️ **Clean Architecture** | ✅ | Domain, Data, Presentation layers |
+| 🧭 **GoRouter Navigation** | ✅ | Type-safe routing with analytics |
+| 🌍 **Environment Config** | ✅ | Multi-environment support |
+| 📱 **State Management** | ✅ | BLoC pattern with Equatable |
+| 💉 **Dependency Injection** | ✅ | GetIt with service locator |
+| 💾 **Multi-Storage** | ✅ | Hive + SQLite + SharedPreferences |
+| 🌐 **Network Layer** | ✅ | Dio with interceptors |
+| 🔐 **Authentication** | ✅ | JWT ready implementation |
+| 🎨 **Theming System** | ✅ | Light/Dark with Material 3 |
+| 🌏 **Localization** | ✅ | i18n ready (EN/VI) |
+| 📊 **Analytics & Logging** | ✅ | Firebase + Sentry + Logger |
+| 🧪 **Testing Framework** | ✅ | Unit + Widget + Integration |
+| 🎯 **Custom Components** | ✅ | Reusable UI library |
+
+## 📁 Project Architecture
 
 ```
-lib/
-├── core/                           # Core functionality
-│   ├── analytics/                  # Analytics service
-│   ├── constants/                  # App constants
-│   ├── di/                        # Dependency injection
-│   ├── env/                       # Environment configuration
-│   ├── error/                     # Error handling
-│   ├── localization/              # Multi-language support
-│   ├── network/                   # API client & interceptors
-│   ├── router/                    # GoRouter configuration
-│   ├── storage/                   # Local storage (Hive, SQLite)
-│   ├── theme/                     # App themes & styling
-│   └── utils/                     # Utility functions
-├── features/                       # Feature modules
-│   ├── auth/                      # Authentication
-│   │   ├── data/                  # Data layer
-│   │   │   ├── datasource/        # Remote & local data sources
-│   │   │   ├── models/            # Data models
-│   │   │   └── repository/        # Repository implementation
-│   │   ├── domain/                # Domain layer
-│   │   │   ├── entities/          # Business entities
-│   │   │   ├── repository/        # Repository contract
-│   │   │   └── usecases/          # Business logic
-│   │   └── presentation/          # Presentation layer
-│   │       ├── bloc/              # State management
-│   │       ├── pages/             # UI screens
-│   │       └── widgets/           # UI components
-│   ├── home/                      # Home feature
-│   └── settings/                  # Settings feature
-└── shared/                        # Shared components
-    ├── extensions/                # Dart extensions
-    ├── services/                  # Global services
-    └── widgets/                   # Reusable widgets
+📦 lib/
+├── 🏗️ core/                     # Core Infrastructure
+│   ├── 📊 analytics/             # Analytics & tracking
+│   ├── 🔧 constants/             # App-wide constants
+│   ├── 💉 di/                    # Dependency injection setup
+│   ├── 🌍 env/                   # Environment configuration
+│   ├── ❌ error/                 # Error handling & exceptions
+│   ├── 🌐 network/              # HTTP client & interceptors
+│   ├── 🧭 router/               # Navigation configuration
+│   ├── 💾 storage/              # Local storage abstractions
+│   ├── 🎨 theme/                # Theming & styling system
+│   └── 🛠️ utils/                # Utility functions
+├── 🎯 features/                  # Feature Modules
+│   ├── 🔐 auth/                 # Authentication
+│   │   ├── 📊 data/             # Data sources & repositories
+│   │   ├── 🏛️ domain/           # Business logic & entities
+│   │   └── 📱 presentation/     # UI & state management
+│   ├── 🏠 home/                 # Home feature
+│   └── ⚙️ settings/             # App settings
+└── 🔄 shared/                   # Shared Components
+    ├── 🔧 extensions/           # Dart extensions
+    ├── 🛠️ services/             # Global services
+    └── 🎨 widgets/              # Reusable UI components
 ```
 
 ## 🚀 Quick Start

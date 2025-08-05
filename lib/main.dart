@@ -1,21 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'core/di/injection.dart' as di;
-import 'core/env/environment_helper.dart';
-import 'core/localization/localization_service.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
+import 'core/di/injection.dart';
+import 'core/env/env_config.dart';
 import 'core/router/app_router.dart';
-import 'core/storage/hive_storage.dart';
 import 'core/theme/app_theme.dart';
-import 'core/theme/theme_cubit.dart';
+import 'core/analytics/analytics_service.dart';
 import 'shared/services/logger_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Set system UI overlay style
+  try {
+    // Initialize environment configuration
+    await EnvConfig.loadEnv(env: Environment.dev);
+
+    // Configure dependency injection
+    await initDependencies();
+
+    // Initialize core services
+    await _initializeCoreServices();
+
+    // Set system UI overlay style
+    _setSystemUIOverlayStyle();
+
+    // Initialize error tracking (only in production)
+    if (EnvConfig.isProd) {
+      await SentryFlutter.init(
+        (options) {
+          options.dsn = EnvConfig.getValue('SENTRY_DSN');
+          options.tracesSampleRate = 1.0;
+          options.environment = EnvConfig.environment.name;
+        },
+        appRunner: () => runApp(const MyApp()),
+      );
+    } else {
+      runApp(const MyApp());
+    }
+  } catch (error, stackTrace) {
+    LoggerService.e('Failed to initialize app', error, stackTrace);
+    runApp(const ErrorApp());
+  }
+}
+
+Future<void> _initializeCoreServices() async {
+  // Initialize logger
+  LoggerService.init();
+
+  // Initialize analytics if available
+  try {
+    await AnalyticsService.init();
+  } catch (e) {
+    LoggerService.w('Analytics service not available: $e');
+  }
+
+  LoggerService.i('Core services initialized successfully');
+}
+
+void _setSystemUIOverlayStyle() {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -24,126 +67,64 @@ void main() async {
       systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
-
-  try {
-    // Initialize storage
-    await HiveStorage.init();
-    LoggerService.i('Storage initialized');
-
-    // Initialize environment configuration
-    await EnvironmentHelper.initialize(flavor: 'dev');
-    LoggerService.i('Environment initialized');
-
-    // Initialize logger
-    LoggerService.init();
-
-    // Initialize dependencies
-    await di.initDependencies();
-    LoggerService.i('Dependencies initialized');
-
-    runApp(const MyApp());
-  } catch (e, stackTrace) {
-    LoggerService.e('Failed to initialize app', e, stackTrace);
-    runApp(ErrorApp(error: e.toString()));
-  }
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ThemeCubit(),
-      child: ScreenUtilInit(
-        designSize: const Size(375, 812), // iPhone X design size
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) {
-          return BlocBuilder<ThemeCubit, ThemeState>(
-            builder: (context, themeState) {
-              return MaterialApp.router(
-                debugShowCheckedModeBanner: false,
-                title: 'Flutter Base Project',
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: EnvConfig.appName,
 
-                // Theme
-                theme: AppTheme.lightTheme,
-                darkTheme: AppTheme.darkTheme,
-                themeMode: themeState.themeMode,
+      // Theme
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
 
-                // Localization
-                localizationsDelegates: const [
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: LocalizationService.supportedLocales,
-                localeResolutionCallback:
-                    LocalizationService.localeResolutionCallback,
-
-                // Routing
-                routerConfig: AppRouter.router,
-
-                // Builder for responsive design
-                builder: (context, widget) {
-                  return MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                    child: widget!,
-                  );
-                },
-              );
-            },
-          );
-        },
-      ),
+      // Routing
+      routerConfig: AppRouter.router,
     );
   }
 }
 
 class ErrorApp extends StatelessWidget {
-  final String error;
-
-  const ErrorApp({Key? key, required this.error}) : super(key: key);
+  const ErrorApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
+      title: 'App Error',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        useMaterial3: true,
+      ),
+      home: const Scaffold(
         body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.error_outline,
-                  size: 64,
-                  color: Colors.red,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error_outline,
+                size: 64,
+                color: Colors.red,
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Application Failed to Initialize',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Failed to start the app',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  error,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.grey),
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    // Restart app or show more details
-                  },
-                  child: const Text('Retry'),
-                ),
-              ],
-            ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Please restart the application',
+                style: TextStyle(fontSize: 14),
+              ),
+            ],
           ),
         ),
       ),

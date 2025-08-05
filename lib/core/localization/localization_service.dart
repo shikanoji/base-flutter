@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'generated/l10n.dart';
+// import 'generated/l10n.dart'; // Will be generated later
 
 class LocalizationService {
   static const List<Locale> supportedLocales = [
@@ -71,5 +71,5 @@ class LocalizationService {
   }
 
   // Get translations shorthand
-  static S of(BuildContext context) => S.of(context);
+  // static S of(BuildContext context) => S.of(context); // Will be enabled after generation
 }
