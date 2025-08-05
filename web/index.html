@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    Base href for routing - will be replaced during build
+    For more details: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Flutter Base Project - Production ready boilerplate with Clean Architecture">
+  <meta name="keywords" content="Flutter, Clean Architecture, BLoC, GoRouter, Mobile App">
+  <meta name="author" content="Flutter Base Project Team">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Flutter Base Project">
+  <meta property="og:description" content="Production ready Flutter boilerplate with Clean Architecture">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="icons/Icon-512.png">
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Flutter Base Project">
+  <meta name="twitter:description" content="Production ready Flutter boilerplate">
+  
+  <!-- iOS PWA Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Flutter Base Project">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#2196F3">
+  <meta name="msapplication-navbutton-color" content="#2196F3">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#2196F3">
+
+  <title>Flutter Base Project</title>
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- Loading Styles -->
+  <style>
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Roboto', sans-serif;
+      color: white;
+    }
+    
+    .loading-logo {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+    
+    .loading-text {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    #flutter-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="flutter-loading" class="loading">
+    <div class="loading-logo">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 10L90 90H10L50 10Z" fill="white" opacity="0.9"/>
+        <path d="M50 30L70 70H30L50 30Z" fill="white" opacity="0.7"/>
+      </svg>
+    </div>
+    <div class="loading-text">Flutter Base Project</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <script>
+    // Hide loading screen when Flutter app is ready
+    window.addEventListener('flutter-first-frame', function () {
+      const loading = document.getElementById('flutter-loading');
+      if (loading) {
+        loading.style.opacity = '0';
+        loading.style.transition = 'opacity 0.5s ease-out';
+        setTimeout(() => loading.remove(), 500);
+      }
+    });
+  </script>
+  
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
