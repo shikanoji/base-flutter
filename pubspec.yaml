@@ -1,0 +1,94 @@
+name: flutter_base_project_full
+description: A Flutter project with clean architecture, GoRouter and env loader
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  
+  # Navigation
+  go_router: ^14.2.7
+  
+  # Environment loader
+  flutter_dotenv: ^5.1.0
+  
+  # State management
+  flutter_bloc: ^8.1.6
+  
+  # Networking
+  dio: ^5.4.3+1
+  connectivity_plus: ^6.0.5
+  
+  # Dependency injection
+  get_it: ^7.7.0
+  injectable: ^2.4.2
+  
+  # Local Storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  sqflite: ^2.3.3+1
+  shared_preferences: ^2.3.2
+  
+  # Authentication
+  jwt_decoder: ^2.0.1
+  crypto: ^3.0.3
+  
+  # UI & Theming
+  flutter_screenutil: ^5.9.3
+  cached_network_image: ^3.4.1
+  
+  # Localization
+  intl: ^0.20.2
+  
+  # Logging & Error Handling
+  logger: ^2.4.0
+  sentry_flutter: ^8.9.0
+  
+  # Analytics
+  firebase_core: ^3.6.0
+  firebase_analytics: ^11.3.3
+  
+  # Utilities
+  equatable: ^2.0.5
+  dartz: ^0.10.1
+  uuid: ^4.5.1
+  permission_handler: ^11.3.1
+  package_info_plus: ^8.0.2
+  device_info_plus: ^10.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  injectable_generator: ^2.6.1
+  build_runner: ^2.4.12
+  hive_generator: ^2.0.1
+  
+  # Testing
+  bloc_test: ^9.1.7
+  mocktail: ^1.0.4
+  integration_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - .env
+    - .env.dev
+    - .env.prod
+    - assets/images/
+    - assets/icons/
+  
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
