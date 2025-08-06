@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../analytics/analytics_service.dart';
-import '../app_router.dart';
+import '../../../../core/analytics/analytics_service.dart';
+import '../../../../core/router/app_router.dart';
 
 /// Home page placeholder
 class HomePage extends StatelessWidget {

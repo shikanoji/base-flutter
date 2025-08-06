@@ -6,9 +6,9 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../analytics/analytics_service.dart';
 import '../../shared/services/logger_service.dart';
-import 'pages/splash_page.dart';
-import 'pages/home_page.dart';
-import 'pages/error_page.dart';
+import '../../features/auth/presentation/pages/splash_page.dart';
+import '../../features/auth/presentation/pages/home_page.dart';
+import '../../features/auth/presentation/pages/error_page.dart';
 
 /// Centralized router configuration following clean architecture
 class AppRouter {
